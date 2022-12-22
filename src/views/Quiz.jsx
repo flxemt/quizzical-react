@@ -29,6 +29,17 @@ export default function Quiz(props) {
   const correctsCount = props.questions.filter(question => question.correct_answer === question.currentAnswer).length
   const totalQuestions = props.questions.length
 
+  if (totalQuestions === 0) {
+    return (
+      <div className="container-small">
+        <h2>No questions found based on your settings</h2>
+        <button className="btn btn-small" onClick={props.backToSettings} style={{ marginTop: '0.5em' }}>
+          Go back
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="container">
       {questions}
@@ -38,7 +49,7 @@ export default function Quiz(props) {
             You scored {correctsCount}/{totalQuestions} correct answers
           </p>
         )}
-        <button className="btn btn-answer" onClick={checkAnswers}>
+        <button className="btn btn-small" onClick={checkAnswers}>
           {isCompleted ? 'Play again' : 'Check answers'}
         </button>
       </div>

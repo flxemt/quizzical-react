@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import { v4 as uuidv4 } from 'uuid'
+
 import Quiz from './Quiz'
 
 export default function Settings(props) {
@@ -64,40 +66,46 @@ export default function Settings(props) {
     setIsStarted(false)
   }
 
-  return !isStarted ? (
-    <div className="container settings-container">
-      <h2 className="settings-heading">Choose your settings:</h2>
-      <form>
-        <label htmlFor="questionsCount">Number of Questions:</label>
-        <select name="questionsCount" id="questionsCount" value={settings.questionsCount} onChange={handleSettingsChange}>
-          {new Array(10).fill(null).map((item, index) => (
-            <option key={index} value={(index + 1) * 5}>
-              {(index + 1) * 5}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="category">Category:</label>
-        <select name="category" id="category" value={settings.category} onChange={handleSettingsChange}>
-          <option value="any">Any Category</option>
-          {props.categories?.map(category => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="difficulty">Difficulty:</label>
-        <select name="difficulty" id="difficulty" defaultValue={settings.difficulty} onChange={handleSettingsChange}>
-          <option value="any">Any Difficulty</option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-        <button className="btn" onClick={startGame}>
-          {isLoading ? 'Loading...' : 'Start quiz'}
-        </button>
-      </form>
-    </div>
-  ) : (
-    <Quiz questions={questions} handleChange={handleAnswerChange} backToSettings={backToSettings} />
+  return (
+    <SwitchTransition>
+      <CSSTransition key={isStarted} timeout={300} classNames="fade">
+        {!isStarted ? (
+          <div className="container settings-container">
+            <h2 className="settings-heading">Choose your settings:</h2>
+            <form>
+              <label htmlFor="questionsCount">Number of Questions:</label>
+              <select name="questionsCount" id="questionsCount" value={settings.questionsCount} onChange={handleSettingsChange}>
+                {new Array(10).fill(null).map((item, index) => (
+                  <option key={index} value={(index + 1) * 5}>
+                    {(index + 1) * 5}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="category">Category:</label>
+              <select name="category" id="category" value={settings.category} onChange={handleSettingsChange}>
+                <option value="any">Any Category</option>
+                {props.categories?.map(category => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="difficulty">Difficulty:</label>
+              <select name="difficulty" id="difficulty" defaultValue={settings.difficulty} onChange={handleSettingsChange}>
+                <option value="any">Any Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+              <button className="btn" onClick={startGame}>
+                {isLoading ? 'Loading...' : 'Start quiz'}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <Quiz questions={questions} handleChange={handleAnswerChange} backToSettings={backToSettings} />
+        )}
+      </CSSTransition>
+    </SwitchTransition>
   )
 }

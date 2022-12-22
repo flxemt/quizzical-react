@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
 
 import Welcome from './views/Welcome'
 import Settings from './views/Settings'
@@ -20,5 +21,13 @@ export default function App() {
     setIsContinued(true)
   }
 
-  return <main>{isContinued ? <Settings categories={categories} /> : <Welcome isLoading={isLoading} goNext={goNext} />}</main>
+  return (
+    <main>
+      <SwitchTransition>
+        <CSSTransition key={isContinued} timeout={300} classNames="fade">
+          {isContinued ? <Settings categories={categories} /> : <Welcome isLoading={isLoading} goNext={goNext} />}
+        </CSSTransition>
+      </SwitchTransition>
+    </main>
+  )
 }
