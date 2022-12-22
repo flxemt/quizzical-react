@@ -46,9 +46,15 @@ h3 {
   border-radius: 15px;
   padding: 1em 3.75em;
   cursor: pointer;
+  transition: background 200ms;
 }
 
-.quiz {
+.btn:hover,
+.btn:focus {
+  background-color: hsl(230, 34%, 40%);
+}
+
+.container {
   max-width: 500px;
   width: 90%;
   display: flex;
@@ -120,6 +126,31 @@ h3 {
   font-weight: 700;
 }
 
+.settings-container {
+  max-width: 350px;
+}
+
+.settings-heading {
+  text-align: center;
+  margin-bottom: 1.25em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+select,
+input {
+  background: #e2e5f7;
+  border: 2px solid #4d5b9e;
+  border-radius: 15px;
+  padding: 15px 10px;
+  color: #293264;
+  font-size: 1rem;
+  margin: 0.5em 0 1.25em;
+}
+
 @media (min-width: 768px) {
   .welcome-title {
     font-size: 2.5rem;
@@ -136,5 +167,14 @@ h3 {
 
   .btn {
     font-size: 1rem;
+  }
+
+  .settings-heading {
+    font-size: 1.75rem;
+  }
+
+  select,
+  input {
+    font-size: 1.25rem;
   }
 }

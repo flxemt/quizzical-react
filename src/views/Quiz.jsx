@@ -20,7 +20,7 @@ export default function Quiz(props) {
 
   function checkAnswers() {
     if (isCompleted) {
-      props.backToWelcome()
+      props.backToSettings()
     }
 
     setIsCompleted(true)
@@ -30,7 +30,7 @@ export default function Quiz(props) {
   const totalQuestions = props.questions.length
 
   return (
-    <div className="quiz">
+    <div className="container">
       {questions}
       <div className="result">
         {isCompleted && (
