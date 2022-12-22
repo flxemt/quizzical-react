@@ -8,11 +8,10 @@ export default function Settings(props) {
   const [isLoading, setIsLoading] = useState(false)
 
   const [settings, setSettings] = useState({
-    questionsCount: 5,
+    questionsCount: '5',
     category: 'any',
     difficulty: 'any'
   })
-  console.log(settings)
 
   function getQueryParam(setting) {
     return setting !== 'any' ? setting : ''
@@ -69,10 +68,12 @@ export default function Settings(props) {
     <div className="container settings-container">
       <h2 className="settings-heading">Choose your settings:</h2>
       <form>
-        <label htmlFor="questions-count">Number of Questions:</label>
+        <label htmlFor="questionsCount">Number of Questions:</label>
         <select name="questionsCount" id="questionsCount" value={settings.questionsCount} onChange={handleSettingsChange}>
           {new Array(10).fill(null).map((item, index) => (
-            <option value={(index + 1) * 5}>{(index + 1) * 5}</option>
+            <option key={index} value={(index + 1) * 5}>
+              {(index + 1) * 5}
+            </option>
           ))}
         </select>
         <label htmlFor="category">Category:</label>
