@@ -33,7 +33,7 @@ export default function Quiz(props) {
     return (
       <div className="container-small">
         <h2>No questions found based on your settings</h2>
-        <button className="btn btn-small" onClick={props.backToSettings} style={{ marginTop: '0.5em' }}>
+        <button className="btn btn-small" onClick={props.backToSettings} style={{ marginTop: '0.5em', alignSelf: 'center' }}>
           Go back
         </button>
       </div>
