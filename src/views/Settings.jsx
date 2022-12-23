@@ -3,7 +3,6 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import { v4 as uuidv4 } from 'uuid'
 
 import Quiz from './Quiz'
-import loader from '../assets/loader.svg'
 
 export default function Settings(props) {
   const [isStarted, setIsStarted] = useState(false)
@@ -99,7 +98,7 @@ export default function Settings(props) {
                 <option value="hard">Hard</option>
               </select>
               <button className="btn" onClick={startGame}>
-                {isLoading ? <img src={loader} alt="loading" /> : 'Start quiz'}
+                {isLoading ? <img src="loader.svg" alt="loading" /> : 'Start quiz'}
               </button>
             </form>
           </div>
