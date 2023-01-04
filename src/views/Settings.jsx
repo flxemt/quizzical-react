@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 
 import Quiz from './Quiz'
@@ -30,20 +31,29 @@ export default function Settings(props) {
   async function startGame(event) {
     event.preventDefault()
     if (isLoading) return
-    setIsLoading(true)
 
-    const res = await fetch(getApiURL())
-    const data = await res.json()
+    try {
+      setIsLoading(true)
+      const res = await fetch(getApiURL())
+      if (!res.ok) throw new Error(res.status)
+      const data = await res.json()
 
-    const questions = data.results.map(question => ({
-      ...question,
-      id: uuidv4(),
-      currentAnswer: ''
-    }))
+      const questions = data.results.map(question => ({
+        ...question,
+        id: uuidv4(),
+        currentAnswer: ''
+      }))
 
-    setQuestions(questions)
-    setIsStarted(true)
-    setIsLoading(false)
+      if (!questions.length) throw new Error('No questions found based on your settings')
+
+      setQuestions(questions)
+      setIsStarted(true)
+      toast.dismiss()
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function handleSettingsChange(event) {
@@ -74,7 +84,12 @@ export default function Settings(props) {
             <h2 className="settings-heading">Choose your settings:</h2>
             <form>
               <label htmlFor="questionsCount">Number of Questions:</label>
-              <select name="questionsCount" id="questionsCount" value={settings.questionsCount} onChange={handleSettingsChange}>
+              <select
+                name="questionsCount"
+                id="questionsCount"
+                value={settings.questionsCount}
+                onChange={handleSettingsChange}
+              >
                 {new Array(10).fill(null).map((item, index) => (
                   <option key={index} value={(index + 1) * 5}>
                     {(index + 1) * 5}
@@ -91,7 +106,12 @@ export default function Settings(props) {
                 ))}
               </select>
               <label htmlFor="difficulty">Difficulty:</label>
-              <select name="difficulty" id="difficulty" defaultValue={settings.difficulty} onChange={handleSettingsChange}>
+              <select
+                name="difficulty"
+                id="difficulty"
+                defaultValue={settings.difficulty}
+                onChange={handleSettingsChange}
+              >
                 <option value="any">Any Difficulty</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
